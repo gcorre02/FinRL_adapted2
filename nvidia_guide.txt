@@ -1,0 +1,79 @@
+set this env variable before setting up torch locally
+
+$ export TORCH_CUDA_ARCH_LIST="8.6"
+
+$ pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+
+
+
+
+Setup Nvidia driver 
+
+-> https://www.cyberciti.biz/faq/ubuntu-linux-install-nvidia-driver-latest-proprietary-driver/#verification
+
+
+validate
+
+$ python3
+
+$ import torch
+$ torch.cuda.is_available()
+$ torch.cuda.get_device_name(0)
+
+
+
+Nvidia docker guide
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+
+setup nvidia-docker
+
+# add repo
+
+$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+$ sudo apt-get update
+
+$ sudo apt-get install -y nvidia-docker2
+
+$ sudo systemctl restart docker
+
+# check (should give you a screen with status): 
+
+$ sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+
+
+
+# need to setup nvidia runtime - https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
+
+
+https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
+
+Dockerfile:
+
+```
+
+FROM nvidia/cuda:10.2-base
+CMD nvidia-smi
+
+```
+
+# build
+
+docker build . -t nvidia-test
+
+
+# Run
+
+docker run --gpus all nvidia-test
+
+
+check it is running correctly and check on gpu performance
+
+$nvidia-smi
+
+
+There's also a runtime: - isnt needed if it is setup correctly
+
+
+
+

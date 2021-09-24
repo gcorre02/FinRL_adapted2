@@ -1,0 +1,29 @@
+guide - with nvidia, use the guide for it
+
+# i need to fork the project
+setup docker - https://docs.docker.com/engine/install/ubuntu/
+mkdir /opt/fin/	
+cd /opt/fin/
+git clone <forked project>
+sudo docker build -f Dockerfile -t finrl .
+sudo docker run -it --rm --gpus all -v "${PWD}":/home -p 8887:8888 finrl
+
+-----
+
+
+changes to the original project
+(https://github.com/AI4Finance-Foundation/FinRL.git)
+
+moved finrl into finrl_app
+added init.py to all the folders in within the code for finrl so it can be installed through docker
+moved the contents of the docker folder to the parent so it can be run with knowledge of finrl_app
+made changes to the Dockerfile to handle all the dependencies and install the finrl package
+
+
+
+nvidia - nvidia-smi
+
+
+look into this: https://reposhub.com/python/deep-learning/AI4Finance-LLC-FinRL-Library.html
+
+Stable baselines guide - https://stable-baselines3.readthedocs.io/_/downloads/en/master/pdf/
